@@ -42,8 +42,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // enabling the /oauth/token_key endpoint
         //  security.tokenKeyAccess("isAuthenticated()");
-//        security.passwordEncoder(new BCryptPasswordEncoder());
-        security.passwordEncoder(NoOpPasswordEncoder.getInstance());
+        security.passwordEncoder(new BCryptPasswordEncoder());
+//        security.passwordEncoder(NoOpPasswordEncoder.getInstance());
         /*
          * GET req + clientId&secret
          * http://localhost:8080/oauth/token_key
@@ -60,15 +60,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 //                    .authorizedGrantTypes("authorization_code")
 //                    .redirectUris("http://localhost:9090");
 
-        clients.inMemory()
-                // authorization_code grant type
-                .withClient("client1")
-                .secret("secret1")
-                .scopes("read", "write")
-                .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://localhost:9090");
-
-//        clients.withClientDetails(clientDetailsService);
+        clients.withClientDetails(clientDetailsService);
 
         // 1. get authorization_code
         // http://localhost:8080/oauth/authorize?response_type=code&client_id=client1&scope=read write

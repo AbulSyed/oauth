@@ -2,6 +2,7 @@ package com.syed.authserver.security;
 
 import com.syed.authserver.entity.Client;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 import java.util.*;
@@ -57,7 +58,9 @@ public class SecurityClient implements ClientDetails {
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return null;
+        return client.getScopes().stream()
+                .map(scope -> new SimpleGrantedAuthority(scope.getName()))
+                .collect(Collectors.toSet());
     }
 
     @Override
