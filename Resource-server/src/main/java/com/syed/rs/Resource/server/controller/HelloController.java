@@ -16,7 +16,7 @@ public class HelloController {
     }
 
     @GetMapping("/hello")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('firepunch')")
     public String hello(@AuthenticationPrincipal Jwt jwt) {
         System.out.println(jwt.getClaims());
         return "hello";
