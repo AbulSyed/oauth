@@ -8,8 +8,9 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +26,11 @@ public class CustomJwtTokenEnhancer implements TokenEnhancer {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(Collections.singletonMap("superpowers", superpowers));
+        Map<String, Object> additionalClaims = new HashMap<>();
+        additionalClaims.put("superpowers", superpowers);
+        additionalClaims.put("user_id", user.getId());
+
+        ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(additionalClaims);
         return oAuth2AccessToken;
     }
 }
